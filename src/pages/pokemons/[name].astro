@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import type { ItemList } from '@/interface';
+import type { ItemList } from '@/interface/pokemon-list.resp';
 import MainLayout from '@/layouts/MainLayout.astro';
 import PokemonCard from '@/components/pokemon/PokemonCard.astro';
 import TitleUI from '@/components/shared/TitleUI.astro';
@@ -65,10 +65,7 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 </MainLayout>
 
 <script>
-  interface FavoritePokemon {
-    id: string;
-    name: string;
-  }
+  import type { FavoritePokemon } from '@/interface/favorite-pokemon';
 
   const handlePageLoad = () => {
     let favorites: FavoritePokemon[] = JSON.parse(localStorage.getItem('favorites') || '[]');
