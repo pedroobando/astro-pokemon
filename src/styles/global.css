@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+/* ============================================
+   VIEW TRANSITIONS - CONFIGURACIÓN SUAVE
+   ============================================ */
+
+/* Transiciones base más suaves */
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Grupos de imágenes - aislamiento para evitar flashes */
+::view-transition-image-pair(*) {
+  isolation: isolate;
+  will-change: transform, opacity;
+}
+
+/* Animación personalizada para imágenes de Pokémon */
+::view-transition-group(img) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Estado viejo (salida) */
+::view-transition-old(img) {
+  animation: fade-out-scale 0.4s ease-out forwards;
+}
+
+/* Estado nuevo (entrada) */
+::view-transition-new(img) {
+  animation: fade-in-scale 0.5s ease-out forwards;
+}
+
+/* Keyframes para transición suave */
+@keyframes fade-out-scale {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Prevenir scroll durante la transición */
+html {
+  view-transition-name: none;
+}
+
+/* Asegurar que las imágenes no causen layout shift */
+img {
+  content-visibility: auto;
+}
+
+/* Optimización para View Transitions */
+@supports (view-transition-name: none) {
+  ::view-transition {
+    pointer-events: none;
+  }
+}
