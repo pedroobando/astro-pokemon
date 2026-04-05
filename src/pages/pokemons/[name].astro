@@ -5,6 +5,8 @@ import MainLayout from '@/layouts/MainLayout.astro';
 import PokemonCard from '@/components/pokemon/PokemonCard.astro';
 import TitleUI from '@/components/shared/TitleUI.astro';
 
+import { Icon } from 'astro-icon/components';
+
 export const getStaticPaths = (async () => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
   const data = await resp.json();
@@ -41,9 +43,16 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 
 <MainLayout title={name} description={`Informacion sobre el pokemon ${name}`} image={imageSrc}>
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
-    <div>
-      <button class="text-blue-500 mb-4" onclick="history.back()">Regresar</button>
-      <TitleUI>{`Pokemon #${id} ${name}`}</TitleUI>
+    <div class="flex flex-row">
+      <div>
+        <button class="text-blue-500 mb-4" onclick="history.back()">Regresar</button>
+        <TitleUI>{`Pokemon #${id} ${name}`}</TitleUI>
+      </div>
+
+      <button id="btn-favorite">
+        <Icon name={'heart-outline'} class="ml-4" size={28} } />
+        <Icon name={'heart-full'} size={28} } />
+      </button>
     </div>
 
     <PokemonCard name={name} url={url} isBig />
@@ -59,5 +68,9 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
   @reference "tailwindcss";
   a {
     @apply hover:underline text-blue-400 text-base;
+  }
+
+  #btn-favorite {
+    @apply hover:animate-pulse;
   }
 </style>
