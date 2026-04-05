@@ -1,43 +1,135 @@
-# Astro Starter Kit: Minimal
+# 🎮 Pokemon Static
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Una Pokédex estática generada con [Astro](https://astro.build) que consume la [PokeAPI](https://pokeapi.co/) para mostrar información de los primeros 151 Pokémon.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ✨ Características
 
-## 🚀 Project Structure
+- ⚡ **Generación Estática** - Páginas pre-renderizadas en build time con `getStaticPaths`
+- 📱 **Responsive** - Diseño adaptable usando Tailwind CSS
+- 🎨 **Transiciones Suaves** - Navegación fluida con `ClientRouter` de Astro
+- 🔊 **Sonidos de Pokémon** - Reproduce los cries de cada Pokémon
+- 📄 **SEO Optimizado** - Meta tags dinámicas y Open Graph
+- 🧩 **Componentes Reutilizables** - Arquitectura modular con Astro components
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🚀 Demo en Vivo
+
+Puedes ver la demo en: `http://localhost:4321` (modo desarrollo)
+
+## 📁 Estructura del Proyecto
 
 ```text
 /
-├── public/
+├── public/                 # Assets estáticos (favicon, etc.)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/         # Componentes Astro reutilizables
+│   │   ├── navbar/         # Navegación principal
+│   │   └── pokemon/        # Tarjetas de Pokémon
+│   ├── consts/             # Constantes (site-info)
+│   ├── interface/          # TypeScript interfaces
+│   ├── layouts/            # Layouts de página
+│   ├── pages/              # Rutas de la aplicación
+│   │   ├── index.astro           # Listado inicial
+│   │   ├── pokemons/
+│   │   │   ├── [page].astro      # Paginación (15 por página)
+│   │   │   └── [name].astro      # Detalle por nombre
+│   │   ├── pokemon/
+│   │   │   └── [id].astro        # Detalle por ID
+│   │   └── favorites/
+│   │       └── index.astro       # Favoritos (WIP)
+│   └── styles/             # Estilos globales
+├── astro.config.mjs        # Configuración de Astro
+├── package.json
+└── README.md
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🛣️ Rutas Disponibles
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Ruta                  | Descripción                                             |
+| --------------------- | ------------------------------------------------------- |
+| `/`                   | Listado inicial de Pokémon (primera página de la API)   |
+| `/pokemons/1`         | Paginación - 15 Pokémon por página (10 páginas totales) |
+| `/pokemons/bulbasaur` | Detalle de un Pokémon por nombre                        |
+| `/pokemon/1`          | Detalle de un Pokémon por ID                            |
+| `/favorites`          | Página de favoritos (en desarrollo)                     |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 🧞 Comandos
 
-## 🧞 Commands
+| Comando        | Acción                                            |
+| :------------- | :------------------------------------------------ |
+| `pnpm install` | Instalar dependencias                             |
+| `pnpm dev`     | Iniciar servidor de desarrollo (`localhost:4321`) |
+| `pnpm build`   | Generar sitio estático en `./dist/`               |
+| `pnpm preview` | Previsualizar build localmente                    |
 
-All commands are run from the root of the project, from a terminal:
+## 🛠️ Stack Tecnológico
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+- **[Astro](https://astro.build/)** v6.1.3 - Framework web moderno
+- **[Tailwind CSS](https://tailwindcss.com/)** v4.2.2 - Framework CSS utility-first
+- **TypeScript** - Tipado estático
+- **[PokeAPI](https://pokeapi.co/)** - API de datos Pokémon
+- **[PokeAPI Sprites](https://github.com/PokeAPI/sprites)** - Imágenes oficiales
+- **[PokeAPI Cries](https://github.com/PokeAPI/cries)** - Sonidos de Pokémon
 
-## 👀 Want to learn more?
+## 🎯 Features Implementadas
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### ⚡ Static Site Generation (SSG)
+
+Todas las páginas se generan en build time usando `getStaticPaths`, lo que significa:
+
+- Cero carga en la API en runtime
+- Tiempo de carga ultrarrápido
+- SEO perfecto
+
+### 🎴 PokemonCard Component
+
+Componente reutilizable que muestra:
+
+- Imagen oficial del Pokémon (artwork)
+- Nombre con capitalización
+- Tamaño adaptable (`isBig` prop)
+- Transiciones de Astro (`transition:name`)
+
+### 🔊 Audio de Pokémon
+
+Cada página de detalle incluye un reproductor de audio con el cry del Pokémon usando los assets de PokeAPI Cries.
+
+### 📄 SEO Dinámico
+
+El layout principal (`MainLayout`) genera automáticamente:
+
+- Meta description
+- Open Graph tags (title, description, image)
+- Keywords relevantes
+
+## 🔧 Configuración
+
+### Requisitos
+
+- Node.js >= 22.12.0
+- pnpm (recomendado)
+
+### Alias de Importación
+
+El proyecto usa alias configurados en `tsconfig.json`:
+
+```ts
+import PokemonCard from '@/components/pokemon/PokemonCard.astro';
+import type { PokemonListResponse } from '@/interface';
+```
+
+## 📝 Notas de Desarrollo
+
+- La paginación muestra 15 Pokémon por página de los 151 disponibles
+- Las imágenes se cargan desde el repositorio oficial de sprites de PokeAPI
+- Los sonidos están en formato `.ogg` desde el repositorio de cries
+- La página de favoritos está reservada para funcionalidad futura
+
+## 📚 Recursos
+
+- [Documentación de Astro](https://docs.astro.build)
+- [Documentación de Tailwind CSS](https://tailwindcss.com/docs)
+- [PokeAPI Documentation](https://pokeapi.co/docs/v2)
+
+---
+
+Hecho con ❤️ y Astro

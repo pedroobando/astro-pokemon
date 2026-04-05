@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import MainLayout from '@/layouts/MainLayout.astro';
 import PokemonCard from '@/components/pokemon/PokemonCard.astro';
 import type { ItemList } from '@/interface';
+import TitleUI from '@/components/shared/TitleUI.astro';
 
 export const getStaticPaths = (async () => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
@@ -29,7 +30,7 @@ const cries = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemo
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
     <div>
       <a href="/">Regresar</a>
-      <h1 class="text-2xl capitalize mt-4">{name}</h1>
+      <TitleUI>{name}</TitleUI>
     </div>
 
     <PokemonCard name={name} url={url} isBig />

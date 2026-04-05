@@ -1,5 +1,6 @@
 ---
 import PokemonCard from '@/components/pokemon/PokemonCard.astro';
+import TitleUI from '@/components/shared/TitleUI.astro';
 import type { PokemonListResponse } from '@/interface';
 import MainLayout from '@/layouts/MainLayout.astro';
 
@@ -8,8 +9,7 @@ const data = (await resp.json()) as PokemonListResponse;
 ---
 
 <MainLayout title="Home">
-  <h1 class="text-blue-400 text-3xl">Listado de Pokemon</h1>
-  <hr class="border-slate-600" />
+  <TitleUI>Listado de Pokemon</TitleUI>
   <section aria-label="Listado de Pokemons" class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 mt-5">
     {data.results.map((pokemon) => <PokemonCard name={pokemon.name} url={pokemon.url} />)}
   </section>

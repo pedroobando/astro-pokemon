@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import '@/styles/global.css';
+import NavBar from '@/components/shared/NavBar.astro';
 import { siteInfo } from '@/consts/site-info';
-import NavBar from '@/components/navbar/NavBar.astro';
+
+import '@/styles/global.css';
 
 interface Props {
   title?: string;
@@ -38,7 +39,7 @@ const preTitle = 'Pokemon Static';
   </head>
   <body class="bg-slate-800 text-slate-100">
     <NavBar />
-    <main class="mt-10 mx-auto max-w-3xl">
+    <main class="mt-10 m-auto max-w-3xl">
       <slot />
     </main>
   </body>
