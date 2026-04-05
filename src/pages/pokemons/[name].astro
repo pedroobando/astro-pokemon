@@ -49,9 +49,9 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
         <TitleUI>{`Pokemon #${id} ${name}`}</TitleUI>
       </div>
 
-      <button id="btn-favorite">
-        <Icon name={'heart-outline'} class="ml-4" size={28} } />
-        <Icon name={'heart-full'} size={28} } />
+      <button id="btn-favorite" class="ml-4" data-name={name} data-id={id}>
+        <Icon data-outline name={'heart-outline'} class="" size={28} } />
+        <Icon data-full name={'heart-full'} class="hidden" size={28} } />
       </button>
     </div>
 
@@ -63,6 +63,55 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     </audio>
   </section>
 </MainLayout>
+
+<script>
+  interface FavoritePokemon {
+    id: string;
+    name: string;
+  }
+
+  const handlePageLoad = () => {
+    let favorites: FavoritePokemon[] = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    // const btnFavorite = document.querySelector('#btn-favorite') as HTMLButtonElement;
+    const btnFavorite = document.getElementById('btn-favorite') as HTMLButtonElement;
+    if (!btnFavorite) return;
+
+    const name = btnFavorite.dataset.name as string;
+    const id = btnFavorite.dataset.id as string;
+
+    const heartOutline = btnFavorite.querySelector('[data-outline]') as HTMLElement;
+    const heartFull = btnFavorite.querySelector('[data-full]') as HTMLElement;
+
+    const isFavorite = favorites.some((pokemon) => pokemon.id === id);
+    if (isFavorite) {
+      heartOutline.classList.add('hidden');
+      heartFull.classList.remove('hidden');
+    }
+
+    const tooggleFavorite = () => {
+      const index = favorites.findIndex((pokemon) => pokemon.id === id);
+      if (index === -1) {
+        favorites.push({ id, name });
+      } else {
+        favorites.splice(index, 1);
+      }
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    };
+
+    // console.log(isFavorite);
+
+    btnFavorite.addEventListener('click', () => {
+      heartOutline.classList.toggle('hidden');
+      heartFull.classList.toggle('hidden');
+
+      tooggleFavorite();
+      // console.log(name, id);
+    });
+  };
+
+  document.addEventListener('astro:page-load', handlePageLoad);
+</script>
 
 <style>
   @reference "tailwindcss";
